@@ -5,7 +5,7 @@ require_once __DIR__ . '/../includes/functions.php';
 requireRole('admin');
 $pdo = getDB();
 
-$settings_keys = ['address', 'phone', 'tuition_info', 'admissions_requirements', 'student_life_clubs', 'student_life_sports'];
+$settings_keys = ['address', 'phone', 'tuition_info', 'admissions_requirements', 'student_life_clubs', 'student_life_sports', 'google_maps_embed'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_site'])) {
     foreach ($settings_keys as $k) {
         $v = trim($_POST[$k] ?? '');
@@ -70,6 +70,10 @@ $verses = $pdo->query("SELECT id, verse_text, reference FROM bible_verses ORDER 
             <div class="form-group">
                 <label>Student life – Sports (HTML)</label>
                 <textarea name="student_life_sports" class="form-control" rows="3"><?php echo e($settings['student_life_sports']); ?></textarea>
+            </div>
+            <div class="form-group">
+                <label>Google Maps embed URL or iframe src</label>
+                <input type="text" name="google_maps_embed" class="form-control" value="<?php echo e($settings['google_maps_embed']); ?>" placeholder="https://www.google.com/maps/embed?pb=...">
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>

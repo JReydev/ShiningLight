@@ -1,7 +1,7 @@
 <?php
 $current_page = 'contact';
 $page_title = 'Contact Us | Shining Light Christian College Inc.';
-$meta_desc = 'Contact Shining Light Christian College Inc. Visit us or send a message.';
+$meta_desc = 'Contact Shining Light Christian College Inc. Visit us, send a message, or view our location on the map.';
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/header.php';
@@ -9,6 +9,7 @@ require_once __DIR__ . '/includes/header.php';
 $sent = isset($_GET['sent']) && $_GET['sent'] === '1';
 $address = getSetting('address', DEFAULT_ADDRESS);
 $phone = getSetting('phone', DEFAULT_PHONE);
+$map_embed = getSetting('google_maps_embed', '');
 $facebook_url = defined('FACEBOOK_URL') ? FACEBOOK_URL : '';
 ?>
 <section class="page-hero">
@@ -59,6 +60,17 @@ $facebook_url = defined('FACEBOOK_URL') ? FACEBOOK_URL : '';
         </div>
     </div>
 
+    <div class="content-block">
+        <h2>Find us</h2>
+        <div class="map-wrap">
+            <?php
+            if (strpos($map_embed, '<iframe') !== false) echo $map_embed;
+            elseif ($map_embed !== '') echo '<iframe src="' . e($map_embed) . '" title="Map showing Shining Light Christian College" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+            else echo '<iframe src="https://maps.google.com/maps?q=' . rawurlencode($address) . '&amp;output=embed" title="Map showing Shining Light Christian College" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+            ?>
+        </div>
+        <p class="mt-2"><a href="https://maps.google.com/?q=<?php echo rawurlencode($address); ?>" target="_blank" rel="noopener noreferrer">Open directions in Google Maps</a></p>
+    </div>
 </div>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

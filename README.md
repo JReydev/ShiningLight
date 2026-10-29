@@ -11,9 +11,19 @@ A modern, responsive website for a faith-centered educational institution.
 - **Online Enrollment** – Secure form (student + parent info, document uploads), database storage, admin approval dashboard, auto-confirmation email, status tracking
 - **Student Life** – Clubs, sports, gallery
 - **News & Announcements** – Dynamic CMS (create/edit/publish)
-- **Contact** – Contact information and message form
+- **Contact** – Form + Google Maps embed
 - **Admin Panel** – Content, enrollments, faculty, gallery, pages, settings, contacts; role-based access (admin/editor/viewer)
 - **Design** – Forest green, gold, and warm neutrals; photography-led page headers; responsive layouts, accessible navigation, animated cards, and hover-based link states; Bible verse in footer; SEO-friendly metadata
+
+## Tech Stack
+
+This project is built with a lightweight LAMP-style stack:
+
+- PHP 7.4+ – server-side logic, admin authentication, form handling, and database access using PDO
+- MySQL 5.7+ / MariaDB – relational database for pages, news, faculty, gallery, enrollment records, and contact submissions
+- Apache + XAMPP – local web server environment for development and deployment
+- HTML5, CSS3, and JavaScript – responsive page structure, styling, and client-side interactivity
+- Composer – dependency management and autoloading support
 
 ## Requirements
 
@@ -32,8 +42,12 @@ A modern, responsive website for a faith-centered educational institution.
 
 ## Configuration
 
-- **config/database.php** – DB host/name/user/pass, `SITE_URL` (e.g. `http://localhost/ShiningLight`), `ADMIN_EMAIL`, upload path and max file size.
-- **Admin → Settings** – Address, phone, tuition text, admissions requirements, student life text, and footer Bible verses.
+- **config/database.php** – DB host/name/user/pass, `ADMIN_EMAIL`, upload path and max file size. `SITE_URL` is inferred from the current request; set the `SHINING_LIGHT_SITE_URL` environment variable to the public site URL (without a trailing slash) when deploying behind a proxy or when automatic detection is unsuitable.
+- **Admin → Settings** – Address, phone, tuition text, admissions requirements, student life text, Google Maps embed URL, footer Bible verses.
+
+## Google Maps
+
+In Admin → Settings, paste either the **embed URL** (e.g. `https://www.google.com/maps/embed?pb=...`) or the full iframe `src` value from Google Maps (Share → Embed a map).
 
 ## Optional Enhancements
 

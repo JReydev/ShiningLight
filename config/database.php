@@ -8,7 +8,24 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
-define('SITE_URL', 'http://localhost/ShiningLight');
+$siteUrl = trim((string) getenv('SHINING_LIGHT_SITE_URL'));
+if ($siteUrl === '' && isset($_SERVER['HTTP_HOST'])) {
+    $host = (string) $_SERVER['HTTP_HOST'];
+    if (preg_match('/\A(?:[A-Za-z0-9.-]+|\[[0-9A-Fa-f:.]+\])(?::\d{1,5})?\z/', $host)) {
+        $scheme = (!empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off')
+            ? 'https'
+            : 'http';
+        $scriptDirectory = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
+        if (in_array(basename($scriptDirectory), ['admin', 'install', 'student', 'teacher'], true)) {
+            $scriptDirectory = dirname($scriptDirectory);
+        }
+        $siteUrl = $scheme . '://' . $host . rtrim($scriptDirectory, '/');
+    }
+}
+if ($siteUrl === '') {
+    $siteUrl = 'http://localhost/ShiningLight';
+}
+define('SITE_URL', rtrim($siteUrl, '/'));
 define('SITE_NAME', 'Shining Light Christian College Inc.');
 define('ADMIN_EMAIL', 'slcc.educ@gmail.com');
 define('FACEBOOK_URL', 'https://www.facebook.com/slcc.eagles');
@@ -16,6 +33,8 @@ define('DEFAULT_ADDRESS', 'Rizal Ave. Ext. Hiway Batingan, Binangonan, Philippin
 define('DEFAULT_PHONE', '0997 619 9710');
 define('UPLOAD_PATH', __DIR__ . '/../uploads/');
 define('MAX_UPLOAD_MB', 5);
+define('GOOGLE_SHEET_ID', '12CG5KPg_goo33W_miH25_wBU1YagWLBej_xXgzQHOmk');
+
 $pdo = null;
 function getDB() {
     global $pdo;
